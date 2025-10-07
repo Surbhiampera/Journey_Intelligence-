@@ -6,7 +6,7 @@ def format_kaggle_datasets(input_folder):
     # Find all CSV files in the folder
     csv_files = [f for f in os.listdir(input_folder) if f.endswith(".csv")]
     if not csv_files:
-        print("❌ No CSV files found in the folder.")
+        print("No CSV files found in the folder.")
         return
 
     all_formatted_data = []
