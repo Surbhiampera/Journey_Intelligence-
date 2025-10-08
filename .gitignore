@@ -5,8 +5,5 @@ env/
 __pycache__/
 *.pyc
 
-# Ignore all CSV files in User_journey folder
-User_journey/*.csv
-
-# Ignore all other CSV files globally
+# Ignore all CSV files everywhere
 *.csv
