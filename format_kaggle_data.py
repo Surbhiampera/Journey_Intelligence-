@@ -28,14 +28,24 @@ def format_kaggle_datasets(input_folder):
         n = len(df) if len(df) > 0 else 5
 
         formatted_df = pd.DataFrame(columns=[
-            'user_id', 'session_id', 'event_time', 'page_name', 'event_type',
-            'event_value', 'device_type', 'location', 'duration_on_page',
+            # User & Session info
+            'user_id', 'session_id', 'event_time', 'device_type', 'location',
+            # Event info
+            'page_name', 'event_type', 'event_value', 'duration_on_page',
             'referrer_page', 'next_page', 'conversion_flag', 'funnel_stage',
-            'intent_label', 'recommendation_shown', 'recommendation_clicked',
-            'cluster_id', 'score_intent_probability'
+            # Intent & Recommendations
+            'intent_label', 'recommendation_shown', 'recommendation_clicked', 'score_intent_probability',
+            # Clustering
+            'cluster_id',
+            # Dashboard module KPIs
+            'total_users', 'conversion_rate', 'avg_session_duration', 'dropoff_rate',
+            'persona_name', 'persona_avg_age', 'persona_conversion', 'device_mix',
+            'journey_step_count', 'journey_avg_dwell', 'journey_dropoff_rate',
+            'ab_test_control_rate', 'ab_test_variant_rate', 'ab_test_p_value', 'ab_test_uplift',
+            'insight_title', 'insight_metric', 'insight_description', 'insight_suggested_action'
         ])
 
-        # ✅ Use df.get() if present, otherwise repeat dummy defaults to match n
+        # Fill dataset columns with existing or dummy values
         formatted_df['user_id'] = df.get('user_id', repeat_to_length(['U1023', 'U1044', 'U1089', 'U1090', 'U1101'], n))
         formatted_df['session_id'] = df.get('session_id', repeat_to_length(['S5502', 'S5503', 'S5504', 'S5505', 'S5506'], n))
         formatted_df['event_time'] = df.get('event_time', pd.date_range('2025-10-07 15:00', periods=n, freq='min').astype(str))
@@ -55,12 +65,37 @@ def format_kaggle_datasets(input_folder):
         formatted_df['cluster_id'] = df.get('cluster_id', repeat_to_length(['C1', 'C2', 'C3', 'C4', 'C5'], n))
         formatted_df['score_intent_probability'] = df.get('score_intent_probability', repeat_to_length([0.87, 0.75, 0.65, 0.92, 0.81], n))
 
+        # Dashboard module KPIs & insights (dummy placeholders)
+        formatted_df['total_users'] = n
+        formatted_df['conversion_rate'] = 0.42
+        formatted_df['avg_session_duration'] = 27.5
+        formatted_df['dropoff_rate'] = 0.15
+
+        formatted_df['persona_name'] = repeat_to_length(['Student', 'Professional', 'Senior', 'Business'], n)
+        formatted_df['persona_avg_age'] = repeat_to_length([22, 30, 45, 35], n)
+        formatted_df['persona_conversion'] = repeat_to_length([0.12, 0.35, 0.18, 0.42], n)
+        formatted_df['device_mix'] = repeat_to_length(['Mobile', 'Desktop', 'Tablet'], n)
+
+        formatted_df['journey_step_count'] = repeat_to_length([4, 5, 3, 6], n)
+        formatted_df['journey_avg_dwell'] = repeat_to_length([12.4, 15.2, 9.5, 18.3], n)
+        formatted_df['journey_dropoff_rate'] = repeat_to_length([0.1, 0.2, 0.15, 0.25], n)
+
+        formatted_df['ab_test_control_rate'] = repeat_to_length([0.32, 0.35], n)
+        formatted_df['ab_test_variant_rate'] = repeat_to_length([0.38, 0.42], n)
+        formatted_df['ab_test_p_value'] = repeat_to_length([0.04, 0.08], n)
+        formatted_df['ab_test_uplift'] = repeat_to_length([0.06, 0.07], n)
+
+        formatted_df['insight_title'] = repeat_to_length(['High drop-off on Payment Page', 'Variant B performs better'], n)
+        formatted_df['insight_metric'] = repeat_to_length([0.25, 0.12], n)
+        formatted_df['insight_description'] = repeat_to_length(['Users abandon payment frequently', 'Variant B uplift seen in mobile'], n)
+        formatted_df['insight_suggested_action'] = repeat_to_length(['Optimize Payment UX', 'Deploy Variant B for Mobile'], n)
+
         all_formatted_data.append(formatted_df)
 
     combined_df = pd.concat(all_formatted_data, ignore_index=True)
     output_file = os.path.join(os.path.dirname(input_folder), "formatted_user_journey_data.csv")
     combined_df.to_csv(output_file, index=False)
-    print(f"\n Formatted dataset saved successfully at:\n{output_file}")
+    print(f"\nFormatted dataset saved successfully at:\n{output_file}")
 
 if __name__ == "__main__":
     input_folder = "/home/ampara/Downloads/kaggle_dataset_formatter/User_ journey"
