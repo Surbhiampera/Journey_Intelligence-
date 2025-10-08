@@ -1,0 +1,12 @@
+# Ignore Python virtual environment
+venv/
+ENV/
+env/
+__pycache__/
+*.pyc
+
+# Ignore all CSV files in User_journey folder
+User_journey/*.csv
+
+# Ignore all other CSV files globally
+*.csv
