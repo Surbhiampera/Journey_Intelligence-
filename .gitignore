@@ -6,4 +6,3 @@ __pycache__/
 *.pyc
 
 # # Ignore all CSV files everywhere
-# *.csv
